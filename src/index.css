@@ -1,0 +1,262 @@
+/* THE TROY — dark, premium journal.
+   Near-black ground, warm off-white ink, one restrained antique-gold accent. */
+
+:root {
+  --bg: #121214;
+  --panel: #19191c;
+  --panel-raised: #1f1f23;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.14);
+
+  --ink: #ece7db;
+  --ink-dim: #8f8b81;
+
+  --gold: #c9a24a;
+  --gold-dim: #8a7133;
+  --rust: #c1523a;
+
+  --serif: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  padding: 3rem 2rem 2rem;
+  text-align: center;
+  position: relative;
+  border-bottom: 1px solid var(--line);
+}
+
+.site-header::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 2px;
+  background: var(--gold);
+}
+
+.site-header h1 {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+
+.site-header p {
+  margin: 0.6rem 0 0;
+  color: var(--gold);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+}
+
+/* ---------- Layout ---------- */
+
+.app-layout {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+@media (max-width: 760px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+.compose h2,
+.notes-section h2 {
+  margin: 0 0 1.4rem;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--line);
+}
+
+/* ---------- Compose panel ---------- */
+
+.compose {
+  position: sticky;
+  top: 2rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1.6rem 1.5rem;
+}
+
+.field {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  font-size: 0.78rem;
+  color: var(--ink-dim);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.5rem;
+}
+
+.field input,
+.field textarea {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: var(--panel-raised);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.7rem 0.8rem;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #6b6862;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201, 162, 74, 0.15);
+}
+
+.field textarea {
+  min-height: 130px;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.add-btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold-dim);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.add-btn:hover {
+  background: var(--gold);
+  color: #14140f;
+  border-color: var(--gold);
+}
+
+.add-btn:focus-visible,
+.note-remove:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ---------- Notes list ---------- */
+
+#notesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.note-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1.2rem 1.3rem;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.note-card:hover {
+  border-color: var(--line-strong);
+  background: var(--panel-raised);
+}
+
+.note-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.note-card-top h3 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.note-card p {
+  margin: 0.55rem 0 0.7rem;
+  color: #cfcabd;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  max-width: 62ch;
+}
+
+.note-meta {
+  font-size: 0.76rem;
+  color: var(--gold-dim);
+  letter-spacing: 0.03em;
+}
+
+.note-remove {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-dim);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.note-remove:hover {
+  border-color: var(--rust);
+  color: var(--rust);
+}
+
+/* ---------- Empty state ---------- */
+
+.empty-state {
+  padding: 2.2rem 1.3rem;
+  color: var(--ink-dim);
+  font-size: 0.92rem;
+  text-align: center;
+  border: 1px dashed var(--line);
+  border-radius: 6px;
+}
+
+#notesContainer:has(.note-card) ~ .empty-state {
+  display: none;
+}
