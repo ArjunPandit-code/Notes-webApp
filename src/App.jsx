@@ -5,6 +5,7 @@ export default function App() {
   const [title, settitle] = useState("");
   const [content, setcontent] = useState("");
   const [array, setarray] = useState([]);
+  let items = [];
 
   const writing = (e) => {
     e.preventDefault();
@@ -15,16 +16,17 @@ export default function App() {
     arr.push({ title, content });
     setarray(arr);
 
-    localStorage.setItem("array", JSON.stringify(array));
+    localStorage.setItem("array", JSON.stringify(arr));
 
     const stored = localStorage.getItem("array");
-    const items = JSON.parse(stored);
-    console.log(items[3].content);
+    items = JSON.parse(stored);
   
   };
 
   function handleDelete(idx) {
-    setarray(array.filter((_, i) => i !== idx));
+    const updated = setarray(array.filter((_, i) => i !== idx));
+    setarray(updated);
+    localStorage.setItem("array" , JSON.stringify(updated));
   }
 
   return (
@@ -88,11 +90,7 @@ export default function App() {
               return (
                 <article className="note-card">
                   <div className="note-card-top">
-                    <h3>
-                      {array.length > 0
-                        ? array[idx].title
-                        : "Choose your title"}
-                    </h3>
+                    <h3>{elem.title || "Choose your title"}</h3>
                     <button
                       className="note-remove"
                       aria-label="Delete note"
@@ -102,11 +100,7 @@ export default function App() {
                     </button>
                   </div>
 
-                  <p>
-                    {array.length > 0
-                      ? array[idx].content
-                      : "Choose your content"}
-                  </p>
+                  <p>{elem.content || "Choose your content"}</p>
                   <span className="note-meta">Today</span>
                 </article>
               );
