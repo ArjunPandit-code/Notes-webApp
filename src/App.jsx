@@ -4,13 +4,13 @@ import "./App.css";
 export default function App() {
   const [title, settitle] = useState("");
   const [content, setcontent] = useState("");
-  const [array, setarray] = useState([]);
-  let items = [];
+  const [array, setarray] = useState(() => {
+    const stored = localStorage.getItem("array");
+    return stored ? JSON.parse(stored) : [];
+  });
 
   const writing = (e) => {
     e.preventDefault();
-    settitle("");
-    setcontent("");
 
     const arr = [...array];
     arr.push({ title, content });
@@ -18,15 +18,14 @@ export default function App() {
 
     localStorage.setItem("array", JSON.stringify(arr));
 
-    const stored = localStorage.getItem("array");
-    items = JSON.parse(stored);
-  
+    settitle("");
+    setcontent("");
   };
 
   function handleDelete(idx) {
-    const updated = setarray(array.filter((_, i) => i !== idx));
+    const updated = array.filter((_, i) => i !== idx);
     setarray(updated);
-    localStorage.setItem("array" , JSON.stringify(updated));
+    localStorage.setItem("array", JSON.stringify(updated));
   }
 
   return (
@@ -88,7 +87,7 @@ export default function App() {
           <div id="notesContainer">
             {array.map(function (elem, idx) {
               return (
-                <article className="note-card">
+                <article className="note-card" key={idx}>
                   <div className="note-card-top">
                     <h3>{elem.title || "Choose your title"}</h3>
                     <button
@@ -108,9 +107,11 @@ export default function App() {
           </div>
 
           {/* Show this when your notes array is empty */}
-          <div className="empty-state">
-            No notes yet. Write your first one on the left.
-          </div>
+          {array.length === 0 && (
+            <div className="empty-state">
+              No notes yet. Write your first one on the left.
+            </div>
+          )}
         </section>
       </main>
     </>
